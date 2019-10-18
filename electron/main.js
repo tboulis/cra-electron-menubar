@@ -1,30 +1,31 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
+const { app, ipcMain } = require('electron');
+
+// const isMac = /darwin/.test(process.platform)
+// const isDev = require('electron-is-dev')
+const path = require('path')
 const url = require('url');
 const { channels } = require('../src/shared/constants');
-
+const { menubar } = require('menubar');
+const startUrl = process.env.ELECTRON_START_URL || url.format({
+  pathname: path.join(__dirname, '../index.html'),
+  protocol: 'file:',
+  slashes: true,
+});
+const mb = menubar({
+  height: 500,
+  index: startUrl,
+  preloadWindow: true,
+  resizable: false,
+  width: 650
+});
 let mainWindow;
 
-function createWindow () {
-  const startUrl = process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, '../index.html'),
-    protocol: 'file:',
-    slashes: true,
-  });
-  mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      preload: path.join(__dirname, 'preload.js'),
-    },
-  });
-  mainWindow.loadURL(startUrl);
-  mainWindow.on('closed', function () {
-    mainWindow = null;
-  });
-}
+mb.on('ready', () => {
+  console.log('app is ready');
+  // your app code here
+});
 
-app.on('ready', createWindow);
+app.on('ready', () => {});
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
@@ -34,7 +35,6 @@ app.on('window-all-closed', function () {
 
 app.on('activate', function () {
   if (mainWindow === null) {
-    createWindow();
   }
 });
 

@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "electron-is-dev": "^1.1.0",
+    "menubar": "^6.0.8",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-redux": "^7.1.1",
