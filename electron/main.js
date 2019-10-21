@@ -12,11 +12,13 @@ const startUrl = process.env.ELECTRON_START_URL || url.format({
   slashes: true,
 });
 const mb = menubar({
-  height: 500,
+  browserWindow: {
+    height: 500,
+    width: 650
+  },
   index: startUrl,
   preloadWindow: true,
   resizable: false,
-  width: 650
 });
 let mainWindow;
 
